@@ -9,7 +9,6 @@ terraform {
 }
 
 provider "yandex" {
-#  service_account_key_file = file("~/.keys/yc_authorized_key.json")
   zone = var.region
 }
 
@@ -23,7 +22,7 @@ data "template_file" "user_data" {
     ssh-public-key = file(var.ssh_key_path)
   }
 }
-
+/*
 resource "yandex_vpc_network" "test" {
   name = "test-network"
 }
@@ -32,26 +31,31 @@ resource "yandex_vpc_subnet" "test" {
   network_id = yandex_vpc_network.test.id
   v4_cidr_blocks = ["10.100.0.0/24"]
 }
+*/
+data "yandex_vpc_subnet" "default" {
+  name = "default-${var.region}"
+}
 
 resource "yandex_compute_instance" "test" {
-  name        = "yc-test"
-  hostname    = "yc-test"
-  platform_id = "standard-v1"					// https://cloud.yandex.ru/docs/compute/concepts/vm-platforms
-//  zone        = "ru-central1-a"
+  name        = var.instance_name
+  hostname    = var.instance_name
+  platform_id = var.instance_platform
 
   resources {
+    core_fraction = var.core_fraction
     cores  = var.cores
     memory = var.memory
   }
 
   boot_disk {
     initialize_params {
-      image_id = data.yandex_compute_image.ubuntu.id		// yc compute image list --folder-id standard-images | grep -i ubuntu | grep '22-04' | grep 2023
+      image_id = data.yandex_compute_image.ubuntu.id
     }
   }
 
   network_interface {
-    subnet_id = yandex_vpc_subnet.test.id
+//    subnet_id = yandex_vpc_subnet.test.id
+    subnet_id = data.yandex_vpc_subnet.default.id
     nat = true
   }
 

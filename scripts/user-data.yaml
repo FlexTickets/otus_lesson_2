@@ -13,7 +13,6 @@ users:
     lock_passwd: false
     ssh_authorized_keys:
       ${ssh-public-key}
-#      ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB+ckmsfy6YoRqrXKjmJx2s7MO9n+iq6OUDCUi3DiiRz kofe
 
 runcmd:
   - apt-get update -y
