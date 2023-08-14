@@ -22,7 +22,7 @@ data "template_file" "user_data" {
     ssh-public-key = file(var.ssh_key_path)
   }
 }
-/*
+
 resource "yandex_vpc_network" "test" {
   name = "test-network"
 }
@@ -30,10 +30,6 @@ resource "yandex_vpc_network" "test" {
 resource "yandex_vpc_subnet" "test" {
   network_id = yandex_vpc_network.test.id
   v4_cidr_blocks = ["10.100.0.0/24"]
-}
-*/
-data "yandex_vpc_subnet" "default" {
-  name = "default-${var.region}"
 }
 
 resource "yandex_compute_instance" "test" {
@@ -54,8 +50,7 @@ resource "yandex_compute_instance" "test" {
   }
 
   network_interface {
-//    subnet_id = yandex_vpc_subnet.test.id
-    subnet_id = data.yandex_vpc_subnet.default.id
+    subnet_id = yandex_vpc_subnet.test.id
     nat = true
   }
 
