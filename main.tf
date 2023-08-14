@@ -14,11 +14,14 @@ provider "yandex" {
 }
 
 data "yandex_compute_image" "ubuntu" {
-  family = "ubuntu-2204-lts"
+  family = var.image_family
 }
 
 data "template_file" "user_data" {
   template = file("scripts/user-data.yaml")
+  vars = {
+    ssh-public-key = file(var.ssh_key_path)
+  }
 }
 
 resource "yandex_vpc_network" "test" {
