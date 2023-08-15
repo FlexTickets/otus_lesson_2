@@ -16,7 +16,7 @@ provider "yandex" {
 provider "null" {}
 
 data "yandex_compute_image" "ubuntu" {
-  family                    = var.image_family
+  family                    = "ubuntu-2204-lts"       // var.image_family
 }
 
 data "template_file" "user_data" {
