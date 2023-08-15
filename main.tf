@@ -109,7 +109,7 @@ resource "null_resource" "test" {
 
   provisioner "local-exec" {
     command = <<EOT
-        ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ${var.ssh_user} -i '${yandex_compute_instance.test.network_interface[0].nat_ip_address},' \
+        ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ${var.ssh_user} -i '${yandex_compute_instance.test.network_interface[0].nat_ip_address}:${var.ssh_port},' \
         --private-key ${var.ssh_private_key_path} ${var.playbook} \
         --extra-vars '{"wait_script":"/u/workspace/terraform/aws/learn-terraform-ansible/scripts/wait4finish-cloud-init.sh","username":"${var.ssh_user}"}'
         EOT
