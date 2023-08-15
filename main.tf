@@ -27,7 +27,7 @@ data "template_file" "user_data" {
     ssh-public-key          = file(var.ssh_public_key_path)
   }
 }
-
+/*
 resource "yandex_vpc_network" "test" {
   name                      = "test-network"
 }
@@ -37,6 +37,15 @@ resource "yandex_vpc_subnet" "test" {
   description               = "test-subnet"
   network_id                = yandex_vpc_network.test.id
   v4_cidr_blocks            = ["10.100.0.0/24"]
+}
+*/
+
+data "yandex_vpc_network" "default" {
+  name = "default"
+}
+
+data "yandex_vpc_subnet" "default" {
+  name = "default-${var.region}"
 }
 
 resource "yandex_compute_instance" "test" {
@@ -57,7 +66,7 @@ resource "yandex_compute_instance" "test" {
   }
 
   network_interface {
-    subnet_id               = yandex_vpc_subnet.test.id
+    subnet_id               = data.yandex_vpc_subnet.default.id
     nat                     = true
   }
 
@@ -69,7 +78,7 @@ resource "yandex_compute_instance" "test" {
 resource "yandex_vpc_security_group" "test" {
   name                      = "test security group"
   description               = "test security group"
-  network_id                = yandex_vpc_subnet.test.id
+  network_id                = data.yandex_vpc_network.default.id
 
   ingress {
     protocol                = "TCP"

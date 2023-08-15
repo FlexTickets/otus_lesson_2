@@ -3,7 +3,7 @@ output "instance_public_ip" {
 }
 
 output "subnet_id" {
-  value = yandex_vpc_subnet.test.id
+  value = data.yandex_vpc_subnet.default.id
 }
 
 output "ubuntu" {
