@@ -18,8 +18,9 @@ runcmd:
   - apt-get update -y
   - DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" dist-upgrade
   - sed -i 's/#Port 22/Port ${port}/g' /etc/ssh/sshd_config
-  - sed -i 's///g' sed -i 's/#PermitRootLogin No/PermitRootLogin No/g' /etc/ssh/sshd_config
+  - sed -i 's/#PermitRootLogin No/PermitRootLogin No/g' /etc/ssh/sshd_config
+  - sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
   - sed -i 's/ENABLED=1/ENABLED=0/g' /etc/default/motd-news
   - sed -i 's/session    optional     pam_motd.so \(.*\)$/#session    optional     pam_motd.so \1/g' /etc/pam.d/sshd
   - touch /etc/motd
-  - reboot
+  - service ssh restart
