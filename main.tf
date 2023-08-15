@@ -89,6 +89,13 @@ resource "yandex_vpc_security_group" "test" {
 
   ingress {
     protocol                = "TCP"
+    description             = "Application"
+    v4_cidr_blocks          = ["0.0.0.0/0"]
+    port                    = 8080
+  }
+
+  ingress {
+    protocol                = "TCP"
     description             = "SSH"
     v4_cidr_blocks          = ["0.0.0.0/0"]
     port                    = 2222
