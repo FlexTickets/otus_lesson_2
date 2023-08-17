@@ -10,6 +10,10 @@ output "ssh_port" {
   value = var.ssh_port
 }
 
+output "ssh_key_path" {
+  value = var.ssh_private_key_path
+}
+
 output "subnet_id" {
   value = data.yandex_vpc_subnet.default.id
 }
