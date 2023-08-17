@@ -23,11 +23,8 @@
       become_method: sudo
       become_user: root
 
-    - name: Nginx
-      hosts: all
-      tasks:
-        - name: Install NGINX
-          ansible.builtin.include_role:
-            name: nginxinc.nginx
-          vars:
-            nginx_branch: stable
+    - name: Install NGINX
+      ansible.builtin.include_role:
+        name: nginxinc.nginx
+      vars:
+        nginx_branch: stable
