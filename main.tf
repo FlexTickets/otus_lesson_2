@@ -2,9 +2,12 @@ terraform {
   required_providers {
     yandex                  = {
       source                = "yandex-cloud/yandex"
-      version               = "0.96.1"
+      version               = ">=0.96"
     }
-    null                    = {}
+    null                    = {
+      source  = "hashicorp/null"
+      version = ">= 3.0"
+    }
   }
   required_version          = ">= 0.15"
 }
@@ -13,7 +16,7 @@ provider "yandex" {
   zone                      = var.region
 }
 
-provider "null" {}
+#provider "null" {}
 
 data "yandex_compute_image" "ubuntu" {
   family                    = var.image_family
@@ -127,7 +130,7 @@ resource "null_resource" "test" {
     command = <<EOT
         ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ${var.ssh_user} -i '${yandex_compute_instance.test.network_interface[0].nat_ip_address}:${var.ssh_port},' \
         --private-key ${var.ssh_private_key_path} ${var.playbook} \
-        --extra-vars '{"wait_script":"${path.cwd}/scripts/wait4finish-cloud-init.sh","username":"${var.ssh_user}"}'
+        --extra-vars '{"wait_script":"${path.cwd}/scripts/wait4finish-cloud-init.sh"}'
         EOT
   }
 }
