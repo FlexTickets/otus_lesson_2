@@ -27,12 +27,12 @@
 
         - name: Create directories for vhost configs and ssl
           ansible.builtin.file:
-            path: 
-              - /etc/nginx/sites-available
-              - /etc/nginx/sites-enabled
-              - /etc/nginx/ssl
-            recurse: true
+            path: /etc/nginx/{{ item.dir }}
             state: directory
+          loop:
+            - dir: sites-available
+            - dir: sites-enabled
+            - dir: ssl
       when: ansible_facts['distribution'] == 'Ubuntu'
       become: true
       become_method: sudo

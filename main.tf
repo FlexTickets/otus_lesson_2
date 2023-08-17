@@ -30,18 +30,6 @@ data "template_file" "user_data" {
     ssh-public-key          = file(var.ssh_public_key_path)
   }
 }
-/*
-resource "yandex_vpc_network" "test" {
-  name                      = "test-network"
-}
-
-resource "yandex_vpc_subnet" "test" {
-  name                      = "test-subnet"
-  description               = "test-subnet"
-  network_id                = yandex_vpc_network.test.id
-  v4_cidr_blocks            = ["10.100.0.0/24"]
-}
-*/
 
 data "yandex_vpc_network" "default" {
   name = "default"

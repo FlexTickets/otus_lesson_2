@@ -1,3 +1,4 @@
+# ssh -i $(terraform output -raw ssh_key_path) -p $(terraform output -raw ssh_port) $(terraform output -raw ssh_user)@$(terraform output -raw instance_public_ip)
 output "instance_public_ip" {
   value = yandex_compute_instance.test.network_interface[0].nat_ip_address
 }
