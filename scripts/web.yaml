@@ -25,9 +25,12 @@
           vars:
             nginx_branch: stable
 
-        - name: Create directories for vhost configs
+        - name: Create directories for vhost configs and ssl
           ansible.builtin.file:
-            path: /etc/nginx/{sites-available, sites-enabled, ssl}
+            path: 
+              - /etc/nginx/sites-available
+              - /etc/nginx/sites-enabled
+              - /etc/nginx/ssl
             recurse: true
             state: directory
       when: ansible_facts['distribution'] == 'Ubuntu'
