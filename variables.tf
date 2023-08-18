@@ -14,25 +14,21 @@ variable "image_family" {
 variable "ssh_port" {
   description = "SSH Port"
   type        = number
-#  default     = 2222
 }
 
 variable "ssh_user" {
   description = "SSH User Name"
   type        = string
-#  default     = "kofe"
 }
 
 variable "ssh_public_key_path" {
   description = "SSH Public Key File Path"
   type        = string
-#  default     = "~/.ssh/authorized_keys"
 }
 
 variable "ssh_private_key_path" {
   description = "SSH Privat Key File Path"
   type        = string
-#  default     = "~/.ssh/kofe.ed"
 }
 
 variable "instance_name" {
