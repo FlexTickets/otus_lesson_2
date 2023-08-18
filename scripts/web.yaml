@@ -11,6 +11,19 @@
           ansible.builtin.apt:
             update_cache=yes force_apt_get=yes cache_valid_time=3600
 
+        - name: Install NGINX
+          ansible.builtin.include_role:
+            name: nginxinc.nginx
+          vars:
+            nginx_branch: stable
+
+        - name: Install packages
+          ansible.builtin.apt:
+            pkg:
+              - php8
+              - php8-fpm
+              - php8-mysql
+
         - name: Remove Apache
           ansible.builtin.apt:
             pkg:
@@ -20,19 +33,6 @@
               - apache2-utils
               - libapache2-mod-php8.1
             state: absent
-
-        - name: Install packages
-          ansible.builtin.apt:
-            pkg:
-              - php
-              - php-fpm
-              - php-mysql
-
-        - name: Install NGINX
-          ansible.builtin.include_role:
-            name: nginxinc.nginx
-          vars:
-            nginx_branch: stable
 
         - name: Create directories for vhost configs and ssl
           ansible.builtin.file:
