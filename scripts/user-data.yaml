@@ -12,7 +12,7 @@ users:
     groups: users, admin
     lock_passwd: false
     ssh_authorized_keys:
-      ${ssh-public-key}
+      ${ssh_public_key}
 
 runcmd:
   - apt-get update -y

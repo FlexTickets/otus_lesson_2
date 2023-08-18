@@ -7,7 +7,7 @@ data "template_file" "user_data" {
   vars = {
     user                    = var.ssh_user
     port                    = var.ssh_port
-    ssh-public-key          = file(var.ssh_public_key_path)
+    ssh_public_key          = file(var.ssh_public_key_path)
   }
 }
 
