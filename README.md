@@ -28,5 +28,5 @@ Lesson 2 - Terraform Practice:
 - scripts - каталог с конфигами (user-data.yaml - команды, исполняемые в конце cloud-init; wait4finish-cloud-init.sh - скрипт ожидания окончания cloud-init; web.yaml - ansible манифест развертывания nginx и статического PHP приложения)
 
 Команды terraform для воспроизведения:
-terraform init
-terraform apply
+- terraform init
+- terraform apply
