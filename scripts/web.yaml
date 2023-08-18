@@ -5,7 +5,7 @@
     - name: Do root works
       block:
         - name: Wait for cloud-inint complition
-          ansible.builtin.script: {{ work_dir }}/{{ wait_script }}
+          ansible.builtin.script: "{{ work_dir }}/{{ wait_script }}"
 
         - name: Update apt-get repo and cache
           ansible.builtin.apt:
