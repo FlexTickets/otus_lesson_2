@@ -39,16 +39,26 @@
           loop:
             - dir: sites-available
             - dir: sites-enabled
-            - dir: ssl
-            - dir: snippets
+
+        - name: Create directory for site
+          ansible.builtin.file:
+            path: /var/www/tetris
+            state: directory
+            owner: {{ php_user }}
+            group: {{ php_user }}
+            mode: '0750'
+            modification_time: preserve
+            access_time: preserve
 
         - name: Correct nginx.conf
-          ansible.builtin.command: sed -i 's/^.*\/etc\/nginx\/conf\.d\/\*\.conf.*/    include \/etc\/nginx\/sites-enabled\/\*\.conf;/' /etc/nginx/nginx.conf
-
-        - name: Copy fastcgi-php.conf
-          ansible.builtin.copy:
-            src: "{{ work_dir }}/configs/fastcgi-php.conf"
-            dest: /etc/nginx/snippets/fastcgi-php.conf
+          ansible.builtin.replace:
+            path: /etc/nginx/nginx.conf
+            regexp: '^.*\/etc\/nginx\/conf\.d\/\*\.conf.*'
+            replace: '    include \/etc\/nginx\/sites-enabled\/\*\.conf;/'
+          ansible.builtin.replace:
+            path: /etc/nginx/nginx.conf
+            regexp: '^.+user nginx;.+'
+            replace: 'user www-data;'
 
         - name: Copy default.conf
           ansible.builtin.copy:
@@ -63,18 +73,10 @@
             modification_time: preserve
             access_time: preserve
 
-        - name: Create directory for site
-          ansible.builtin.file:
-            path: /var/www/tetris
-            state: directory
-            owner: nginx
-            group: nginx
-            mode: '0750'
-            modification_time: preserve
-            access_time: preserve
-
-        - name: Download site content
-          ansible.builtin.command: curl https://raw.githubusercontent.com/hashicorp/learn-terramino/master/index.php -o /var/www/tetris/index.php
+        - name: Copy site
+          ansible.builtin.copy:
+            src: "{{ work_dir }}/configs/index.php"
+            dest: /var/www/tetris/index.php
 
         - name: Restart nginx.conf
           ansible.builtin.service:

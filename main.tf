@@ -80,13 +80,6 @@ resource "yandex_vpc_security_group" "test" {
 
   ingress {
     protocol                = "TCP"
-    description             = "Application"
-    v4_cidr_blocks          = ["0.0.0.0/0"]
-    port                    = 8080
-  }
-
-  ingress {
-    protocol                = "TCP"
     description             = "SSH"
     v4_cidr_blocks          = ["0.0.0.0/0"]
     port                    = 2222
@@ -118,7 +111,7 @@ resource "null_resource" "test" {
     command = <<EOT
         ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ${var.ssh_user} -i '${yandex_compute_instance.test.network_interface[0].nat_ip_address}:${var.ssh_port},' \
         --private-key ${var.ssh_private_key_path} ${var.playbook} \
-        --extra-vars '{"work_dir":"${path.cwd}","wait_script":"scripts/wait4finish-cloud-init.sh","nginx_default":"configs/nginx.default.conf"}'
+        --extra-vars '{"work_dir":"${path.cwd}","wait_script":"scripts/wait4finish-cloud-init.sh","nginx_default":"configs/nginx.default.conf","php_user":"${var.php_user}"}'
         EOT
   }
 }

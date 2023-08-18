@@ -73,3 +73,9 @@ variable "playbook" {
   default     = "scripts/web.yaml"
 }
 
+variable "php_user" {
+  description = "User for run php-fpm"
+  type        = string
+  default     = "www-data"
+}
+
