@@ -3,6 +3,10 @@ Lesson 2 - Terraform Practice:
 - Create compute instance by Terraform
 - Deploy nginx by Ansible playbook
 
+Требования к месту воспроизведения:
+- Terraform v. 1.15
+- Ansible v. 2.3
+
 Для воспроизведения установите переменные окружения для авторизации в YC:
 - YC_TOKEN
 - YC_CLOUD_ID
@@ -22,3 +26,7 @@ Lesson 2 - Terraform Practice:
 - variables.tf - переменные
 - configs - каталог с конфигами (index.php - PHP приложение, nginx.default.conf - дефолтный конфиг nginx)
 - scripts - каталог с конфигами (user-data.yaml - команды, исполняемые в конце cloud-init; wait4finish-cloud-init.sh - скрипт ожидания окончания cloud-init; web.yaml - ansible манифест развертывания nginx и статического PHP приложения)
+
+Команды terraform для воспроизведения:
+terraform init
+terraform apply
