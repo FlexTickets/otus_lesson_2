@@ -11,12 +11,21 @@
           ansible.builtin.apt:
             update_cache=yes force_apt_get=yes cache_valid_time=3600
 
+        - name: Remove Apache
+          ansible.builtin.apt:
+            pkg:
+              - apache2
+              - apache2-bin
+              - apache2-data
+              - apache2-utils
+              - libapache2-mod-php8.1
+            state: absent
+
         - name: Install packages
           ansible.builtin.apt:
             pkg:
               - php
               - php-fpm
-              - mysql-server
               - php-mysql
 
         - name: Install NGINX
