@@ -5,7 +5,7 @@
     - name: Do root works
       block:
         - name: Wait for cloud-inint complition
-          ansible.builtin.script: "{{ wait_script }}"
+          ansible.builtin.script: {{ work_dir }}/{{ wait_script }}
 
         - name: Update apt-get repo and cache
           ansible.builtin.apt:
@@ -18,6 +18,10 @@
               - git
               - apt-transport-https
               - ca-certificates
+              - php8.1
+              - php8.1-fpm
+              - mysql-server
+              - php8.1-mysql
 
         - name: Install NGINX
           ansible.builtin.include_role:
@@ -30,10 +34,44 @@
             path: /etc/nginx/{{ item.dir }}
             state: directory
             mode: '0750'
+            modification_time: preserve
+            access_time: preserve
           loop:
             - dir: sites-available
             - dir: sites-enabled
             - dir: ssl
+
+        - name: Correct nginx.conf
+          ansible.builtin.command: sed -i 's/^.*\/etc\/nginx\/conf\.d\/\*\.conf.*/    include \/etc\/nginx\/sites-enabled\/\*\.conf;/' /etc/nginx/nginx.conf
+
+        - name: Copy default.conf
+          ansible.builtin.copy:
+            src: {{ work_dir }}/{{ nginx_default }}
+            dest: /etc/nginx/sites-available
+
+        - name: Create symlink for default.config
+          ansible.builtin.file:
+            src: /etc/nginx/sites-available/*
+            dest: /etc/nginx/sites-enabled/
+            state: link
+            modification_time: preserve
+            access_time: preserve
+
+        - name: Create directory for site
+          ansible.builtin.file:
+            path: /var/www/tetris
+            state: directory
+            mode: '0750'
+            modification_time: preserve
+            access_time: preserve
+
+        - name: Download site content
+          ansible.builtin.command: curl https://raw.githubusercontent.com/hashicorp/learn-terramino/master/index.php -o /var/www/tetris/index.php
+
+        - name: Restart nginx.conf
+          ansible.builtin.service:
+            name: nginx
+            state: restarted
       when: ansible_facts['distribution'] == 'Ubuntu'
       become: true
       become_method: sudo
