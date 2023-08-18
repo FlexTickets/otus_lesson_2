@@ -20,9 +20,9 @@
         - name: Install packages
           ansible.builtin.apt:
             pkg:
-              - php8
-              - php8-fpm
-              - php8-mysql
+              - php
+              - php-fpm
+              - php-mysql
 
         - name: Remove Apache
           ansible.builtin.apt:
