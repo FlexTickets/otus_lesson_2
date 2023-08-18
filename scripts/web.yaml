@@ -47,12 +47,12 @@
         - name: Copy default.conf
           ansible.builtin.copy:
             src: "{{ work_dir }}/{{ nginx_default }}"
-            dest: /etc/nginx/sites-available
+            dest: /etc/nginx/sites-available/default.conf
 
         - name: Create symlink for default.config
           ansible.builtin.file:
-            src: /etc/nginx/sites-available/*
-            dest: /etc/nginx/sites-enabled/
+            src: /etc/nginx/sites-available/default.conf
+            dest: /etc/nginx/sites-enabled/default.conf
             state: link
             modification_time: preserve
             access_time: preserve
