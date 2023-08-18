@@ -24,7 +24,7 @@
               - php-fpm
               - php-mysql
 
-        - name: Remove Apache
+        - name: Remove Apache installed with php
           ansible.builtin.apt:
             pkg:
               - apache2
@@ -34,7 +34,7 @@
               - libapache2-mod-php8.1
             state: absent
 
-        - name: Create directories for vhost configs and ssl
+        - name: Create directories for vhost configs
           ansible.builtin.file:
             path: /etc/nginx/{{ item.dir }}
             state: directory
