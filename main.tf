@@ -118,7 +118,7 @@ resource "null_resource" "test" {
     command = <<EOT
         ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ${var.ssh_user} -i '${yandex_compute_instance.test.network_interface[0].nat_ip_address}:${var.ssh_port},' \
         --private-key ${var.ssh_private_key_path} ${var.playbook} \
-        --extra-vars '{"work_dir":"${path.cwd}, "wait_script":"scripts/wait4finish-cloud-init.sh", "nginx_default":"configs/default.conf}'
+        --extra-vars '{"work_dir":"${path.cwd}, "wait_script":"scripts/wait4finish-cloud-init.sh", "nginx_default":"configs/nginx.default.conf}'
         EOT
   }
 }
