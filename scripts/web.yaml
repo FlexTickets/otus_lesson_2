@@ -50,15 +50,17 @@
             modification_time: preserve
             access_time: preserve
 
-        - name: Correct nginx.conf
+        - name: Change a vhost configs directory location
           ansible.builtin.replace:
             path: /etc/nginx/nginx.conf
             regexp: '^.*\/etc\/nginx\/conf\.d\/\*\.conf.*'
             replace: '    include \/etc\/nginx\/sites-enabled\/\*\.conf;/'
+          
+        - name: Change user for running nginx
           ansible.builtin.replace:
             path: /etc/nginx/nginx.conf
             regexp: '^.+user nginx;.+'
-            replace: 'user www-data;'
+            replace: 'user {{ php_user }};'
 
         - name: Copy default.conf
           ansible.builtin.copy:
