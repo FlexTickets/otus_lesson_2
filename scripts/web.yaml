@@ -44,8 +44,8 @@
           ansible.builtin.file:
             path: /var/www/tetris
             state: directory
-            owner: {{ php_user }}
-            group: {{ php_user }}
+            owner: "{{ php_user }}"
+            group: "{{ php_user }}"
             mode: '0750'
             modification_time: preserve
             access_time: preserve
