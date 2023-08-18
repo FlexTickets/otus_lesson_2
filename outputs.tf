@@ -1,4 +1,5 @@
 # ssh -i $(terraform output -raw ssh_key_path) -p $(terraform output -raw ssh_port) $(terraform output -raw ssh_user)@$(terraform output -raw instance_public_ip)
+# ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u kofe -i "$(terraform output -raw instance_public_ip):$(terraform output -raw ssh_port)," --private-key $(terraform output -raw ssh_key_path) scripts/web.yaml --extra-vars '{"work_dir":"/home/kofe/git/otus/lesson_2","wait_script":"scripts/wait4finish-cloud-init.sh","nginx_default":"configs/nginx.default.conf","php_user":"www-data"}'
 output "instance_public_ip" {
   value = yandex_compute_instance.test.network_interface[0].nat_ip_address
 }

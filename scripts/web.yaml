@@ -14,14 +14,10 @@
         - name: Install packages
           ansible.builtin.apt:
             pkg:
-              - curl
-              - git
-              - apt-transport-https
-              - ca-certificates
-              - php8.1
-              - php8.1-fpm
+              - php
+              - php-fpm
               - mysql-server
-              - php8.1-mysql
+              - php-mysql
 
         - name: Install NGINX
           ansible.builtin.include_role:
@@ -33,7 +29,6 @@
           ansible.builtin.file:
             path: /etc/nginx/{{ item.dir }}
             state: directory
-            mode: '0750'
             modification_time: preserve
             access_time: preserve
           loop:
@@ -79,6 +74,8 @@
           ansible.builtin.copy:
             src: "{{ work_dir }}/configs/index.php"
             dest: /var/www/tetris/index.php
+            owner: "{{ php_user }}"
+            group: "{{ php_user }}"
 
         - name: Restart nginx.conf
           ansible.builtin.service:
