@@ -40,9 +40,15 @@
             - dir: sites-available
             - dir: sites-enabled
             - dir: ssl
+            - dir: snippets
 
         - name: Correct nginx.conf
           ansible.builtin.command: sed -i 's/^.*\/etc\/nginx\/conf\.d\/\*\.conf.*/    include \/etc\/nginx\/sites-enabled\/\*\.conf;/' /etc/nginx/nginx.conf
+
+        - name: Copy fastcgi-php.conf
+          ansible.builtin.copy:
+            src: "{{ work_dir }}/configs/fastcgi-php.conf"
+            dest: /etc/nginx/snippets/fastcgi-php.conf
 
         - name: Copy default.conf
           ansible.builtin.copy:
@@ -61,6 +67,8 @@
           ansible.builtin.file:
             path: /var/www/tetris
             state: directory
+            owner: nginx
+            group: nginx
             mode: '0750'
             modification_time: preserve
             access_time: preserve
