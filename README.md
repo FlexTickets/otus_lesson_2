@@ -11,7 +11,7 @@ Lesson 2 - Terraform Practice:
 - YC_TOKEN
 - YC_CLOUD_ID
 - YC_FOLDER_ID
-по желанию измените переменные в файле main.tf:
+по желанию измените переменные в файле main.auto.tfvars:
 - ssh_port - порт, на котором будет поднят sshd
 - ssh_user - юзер для логина по ssh
 - ssh_public_key_path - путь до файла с публичным ключем ssh
