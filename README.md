@@ -6,6 +6,7 @@ Lesson 2 - Terraform Practice:
 Требования к месту воспроизведения:
 - Terraform v. 1.15
 - Ansible v. 2.3
+Должна быть установлена роль nginxinc.nginx (https://github.com/nginxinc/ansible-role-nginx) и ее зависимости
 
 Для воспроизведения установите переменные окружения для авторизации в YC:
 - YC_TOKEN
